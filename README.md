@@ -1,4 +1,4 @@
-# node-zklib
+# Zklib-js
 
 - install 
 
