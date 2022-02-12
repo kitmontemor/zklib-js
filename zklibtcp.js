@@ -473,15 +473,16 @@ class ZKLibTCP {
   }
 
   
-
-
+  
+  
+  
   async getSerialNumber() {
     const keyword = '~SerialNumber';
     try {
       const data = await this.executeCmd(11, keyword)
       return data.slice(8).toString('utf-8').replace(keyword + '=', '');
       
-
+      
     } catch (err) {
       return Promise.reject(err)
     }
@@ -491,69 +492,69 @@ class ZKLibTCP {
     const keyword = '~ZKFPVersion';;
     try {
       const data = await this.executeCmd(COMMANDS.CMD_OPTIONS_RRQ, keyword)
-
+      
       return data.slice(8).toString('ascii').replace(keyword + '=', '');
-
+      
     } catch (err) {
       return Promise.reject(err)
     }
   }
-
+  
   async getDeviceName() {
     const keyword = '~DeviceName';
     try {
       const data = await this.executeCmd(COMMANDS.CMD_OPTIONS_RRQ, keyword)
-
+      
       return data.slice(8).toString('ascii').replace(keyword + '=', '');
-
+      
     } catch (err) {
       return Promise.reject(err)
     }
   }
-
+  
   async getPlatform() {
     const keyword = '~Platform';
     try {
       const data = await this.executeCmd(COMMANDS.CMD_OPTIONS_RRQ, keyword)
-
+      
       return data.slice(8).toString('ascii').replace(keyword + '=', '');
-
+      
     } catch (err) {
       return Promise.reject(err)
     }
   }
-
+  
   async getOS() {
     const keyword = '~OS';
     try {
       const data = await this.executeCmd(COMMANDS.CMD_OPTIONS_RRQ, keyword)
-
+      
       return data.slice(8).toString('ascii').replace(keyword + '=', '');
-
+      
     } catch (err) {
       return Promise.reject(err)
     }
   }
-
+  
   async getWorkCode() {
     const keyword = 'WorkCode';
     try {
       const data = await this.executeCmd(COMMANDS.CMD_OPTIONS_RRQ, keyword)
-
+      
       return data.slice(8).toString('ascii').replace(keyword + '=', '');
-
+      
     } catch (err) {
       return Promise.reject(err)
     }
   }
-
+  
   async getPIN() {
     const keyword = '~PIN2Width';
     try {
       const data = await this.executeCmd(COMMANDS.CMD_OPTIONS_RRQ, keyword)
-
+      
       return data.slice(8).toString('ascii').replace(keyword + '=', '');
-
+      
     } catch (err) {
       return Promise.reject(err)
     }
@@ -571,7 +572,7 @@ class ZKLibTCP {
       return Promise.reject(err)
     }
   }
-
+  
   async getSSR() {
     const keyword = '~SSR';
     try {
@@ -606,8 +607,8 @@ class ZKLibTCP {
       return Promise.reject(err);
     }
   }
-
-async setUser(uid, userid, name, password, role = 0, cardno = 0) {
+  
+  async setUser(uid, userid, name, password, role = 0, cardno = 0) {
     try{
     if (
       parseInt(uid) === 0 ||
@@ -616,9 +617,9 @@ async setUser(uid, userid, name, password, role = 0, cardno = 0) {
         name.length > 24 ||
         password.length > 8 ||
         cardno.length > 10
-    ) {
-        return false;
-    }
+        ) {
+          return false;
+        }
 
     const command_string = Buffer.alloc(72);
     command_string.writeUInt16LE(uid, 0);
@@ -637,7 +638,17 @@ async setUser(uid, userid, name, password, role = 0, cardno = 0) {
     console.log('duh');
   }
 
-	}
+}
+
+async getAttendanceSize() {
+  try {
+    const data = await this.executeCmd(COMMANDS.CMD_GET_FREE_SIZES, '')
+    return data.readUIntLE(40, 4);
+
+  } catch (err) {
+    return Promise.reject(err)
+  }
+}
 
   async clearAttendanceLog (){
     return await this.executeCmd(COMMANDS.CMD_CLEAR_ATTLOG, '')
