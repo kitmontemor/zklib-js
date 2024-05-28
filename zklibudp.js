@@ -216,7 +216,8 @@ class ZKLibUDP {
         reject(err)
       }
 
-      const header = decodeUDPHeader(reply.subarray(0, 8))
+      // const header = decodeUDPHeader(reply.subarray(0, 8)) // ORiginall
+			const header = reply ? decodeUDPHeader(reply.subarray(0, 8)) : {}; //Updated
 
       switch (header.commandId) {
         case COMMANDS.CMD_DATA: {
